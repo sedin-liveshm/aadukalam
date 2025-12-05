@@ -25,6 +25,7 @@ app.use(cors({
         "http://localhost:5173", 
         "http://localhost:5174",
         "https://aadukalam-frontend.onrender.com",
+        "https://aadukalam-front.onrender.com",
         "https://aadukalam-frontend.up.railway.app",
         process.env.FRONTEND_URL, // For custom deployment URLs
     ].filter(Boolean), // Remove undefined values
