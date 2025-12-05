@@ -25,12 +25,12 @@ function ContestBasicPage() {
             'Accept': 'application/json'
           }
         })
-        const data = await startAttempt.json()
+        const data = await startAttempt.json();
         if (data.msg) {
-          alert(JSON.stringify(data))
-          nav(`/${uname}/contest-handler/${tname}`)
+          alert(JSON.stringify(data));
+          nav(`/${uname}/contest-handler/${tname}`);
         } else {
-          throw new Error(data.err)
+          throw new Error(data.err);
         }
       } catch (error) {
         alert(error.message)
