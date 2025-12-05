@@ -85,38 +85,21 @@ async function codingPage(req, res) {
         const remainingSeconds = diffSeconds % 60
 
         // If contest/time is over, we still might want to show the code?
-        // Original code returned "Contest over bruh".
-        if (now > end) {
-            // If time is over, maybe just return data with 0 time left?
-            // But original logic returned error. Let's keep it but maybe allow viewing?
-            // For now, stick to original behavior but fix the crash.
-            // Actually, if it's practice, time might not matter as much?
-            // Let's just return the error if time is up, as per original design.
-            res.status(200).json({
-                err: "Contest over bruh"
-            })
-            return
+        if (t.type === "OPEN1") {
+            ip1["Input"] = t.inputString
+            ip1["Output"] = t.outputString
         }
-
-        let ip1 = {};
-        let ip2 = {};
-        let totaltc = tc.length;
-        tc.map((t) => {
-            if (t.type === "OPEN1") {
-                ip1["Input"] = t.inputString
-                ip1["Output"] = t.outputString
-            }
-            else if (t.type === "OPEN2") {
-                ip2["Input"] = t.inputString
-                ip2["Output"] = t.outputString
-            }
+        else if (t.type === "OPEN2") {
+            ip2["Input"] = t.inputString
+            ip2["Output"] = t.outputString
         })
 
+        console.log(qid)
         res.status(200).json({
             msg: "Successful",
             data: data,
-            minutes: diffMinutes,
-            seconds: remainingSeconds,
+            minutes: displayMinutes,
+            seconds: displaySeconds,
             ques: qid,
             ip1: ip1,
             ip2: ip2,

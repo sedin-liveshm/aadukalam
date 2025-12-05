@@ -2,11 +2,11 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Divide } from 'lucide-react';
 
-const PieChart = ({details}) => {
+const PieChart = ({ details }) => {
 
   // console.log(JSON.stringify(details))
   // alert(JSON.string  ify(details))
-  
+
   // Safety check - return loading state if details is not ready
   if (!details || typeof details !== 'object') {
     return (
@@ -15,7 +15,7 @@ const PieChart = ({details}) => {
       </div>
     );
   }
-  
+
   // Data setup with aesthetic colors
   const data = [
     { category: 'Easy', total: details.easyQuestions || 0, solved: details.totalEasyQuestionsSolved || 0, color: '#3aff4e' },
@@ -23,39 +23,56 @@ const PieChart = ({details}) => {
     { category: 'Balanced', total: details.balancedQuestions || 0, solved: details.totalBalancedQuestionsSolved || 0, color: '#ffba30' },
     { category: 'Intense', total: details.intenseQuestions || 0, solved: details.totalIntenseQuestionsSolved || 0, color: '#ff5c4a' },
   ];
-  
+
   const totalProblems = details.totalQuestions || 0;
   const solvedProblems = details.totalQuestionsSolved || 0;
-  
+
+  if (totalProblems === 0) {
+    return (
+      <div className="flex justify-center items-center h-full w-full">
+        <div className="relative w-full h-full flex justify-center items-center">
+          <motion.div
+            className="w-5/6 h-5/6 flex justify-center items-center rounded-3xl border-2 border-[#3b3b3b] bg-[#1c1b1b] overflow-hidden shadow-2xl"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.8 }}
+          >
+            <p className="text-gray-400 text-sm">No Data Available</p>
+          </motion.div>
+        </div>
+      </div>
+    );
+  }
+
   // TUTORIAL - STEP 1: Setting the ring thickness
   // The ring thickness is determined by the difference between innerRadius and outerRadius
   // Smaller difference = thinner ring, larger difference = thicker ring
   const innerRadius = 60; // Inner circle radius
   const outerRadius = 62; // Outer circle radius
   // The thickness is (outerRadius - innerRadius) = 15 units
-  
+
   // Calculate percentage and angles for pie segments
   const calculateAngles = () => {
     let currentAngle = 0;
     const segments = [];
-    
+
     data.forEach(item => {
       const angle = (item.total / totalProblems) * 360;
       // alert( angle)
       segments.push({
         ...item,
         startAngle: currentAngle,
-        endAngle: currentAngle + angle-1,
+        endAngle: currentAngle + angle - 1,
         midAngle: currentAngle + (angle / 2)
       });
       currentAngle += angle;
     });
-    
+
     return segments;
   };
-  
+
   const segments = calculateAngles();
-  
+
   // TUTORIAL - STEP 2: Polar to Cartesian conversion
   // This is how we convert angles to x,y coordinates on the circle
   const polarToCartesian = (centerX, centerY, radius, angleInDegrees) => {
@@ -67,7 +84,7 @@ const PieChart = ({details}) => {
       y: centerY + (radius * Math.sin(angleInRadians))
     };
   };
-  
+
   // TUTORIAL - STEP 3: Creating the ring segments
   // This function creates the SVG path for a ring segment
   const createArc = (segment, innerRadius, outerRadius) => {
@@ -76,9 +93,9 @@ const PieChart = ({details}) => {
     const endInner = polarToCartesian(100, 100, innerRadius, segment.endAngle);
     const startOuter = polarToCartesian(100, 100, outerRadius, segment.startAngle);
     const endOuter = polarToCartesian(100, 100, outerRadius, segment.endAngle);
-    
+
     const largeArcFlag = segment.endAngle - segment.startAngle <= 180 ? "0" : "1";
-    
+
     // SVG path to create a ring segment
     return [
       "M", startOuter.x, startOuter.y, // Move to start point on outer circle
@@ -89,19 +106,19 @@ const PieChart = ({details}) => {
     ].join(" ");
   };
 
-  
+
   return (
     <div className="flex justify-center items-center h-full w-full">
       <div className="relative w-full h-full flex justify-center items-center">
-        <motion.div 
-        className="w-5/6 h-5/6 flex  justify-start rounded-3xl border-2 border-[#3b3b3b] bg-[#1c1b1b] overflow-hidden shadow-2xl " 
+        <motion.div
+          className="w-5/6 h-5/6 flex  justify-start rounded-3xl border-2 border-[#3b3b3b] bg-[#1c1b1b] overflow-hidden shadow-2xl "
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.8 }}
         >
           <svg viewBox="0 0 200 200" className="">
-            
-            
+
+
             {/* Thin Ring Segments */}
             {segments.map((segment, index) => (
               <motion.path
@@ -116,11 +133,11 @@ const PieChart = ({details}) => {
                 className="drop-shadow-md bg-[#ff5c4a]"
               />
             ))}
-            
-            
-            
-            
-            
+
+
+
+
+
             {/* Central text */}
             <motion.text
               x="100"
@@ -134,7 +151,7 @@ const PieChart = ({details}) => {
             >
               Problems Solved
             </motion.text>
-            
+
             <motion.text
               x="100"
               y="115"
@@ -145,26 +162,26 @@ const PieChart = ({details}) => {
               animate={{ opacity: 1 }}
               transition={{ duration: 0.5, delay: 1.4 }}
             >
-                
+
               {solvedProblems}/{totalProblems}
             </motion.text>
           </svg>
           <motion.div className='flex flex-col justify-center items-start mr-1'
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 1.4 }}>
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5, delay: 1.4 }}>
 
-                {
-                    segments.map((segment , index)=>(
-                        <div className='flex justify-center items-center space-x-2 text-xs text-[#ffffff]'>
-                    <div className={`h-2 w-2 rounded-sm ${segment.category=="Easy"?"bg-[#3aff4e]":segment.category=="Hell"?"bg-[#ff0000]":segment.category=="Balanced"?"bg-[#ffba30]":"bg-[#ff5c4a]"}`}></div>
-                    <div >{segment.category.toLowerCase()}-{segment.solved}/{segment.total}</div>
-                        </div>
-                    ))
-                }
+            {
+              segments.map((segment, index) => (
+                <div className='flex justify-center items-center space-x-2 text-xs text-[#ffffff]'>
+                  <div className={`h-2 w-2 rounded-sm ${segment.category == "Easy" ? "bg-[#3aff4e]" : segment.category == "Hell" ? "bg-[#ff0000]" : segment.category == "Balanced" ? "bg-[#ffba30]" : "bg-[#ff5c4a]"}`}></div>
+                  <div >{segment.category.toLowerCase()}-{segment.solved}/{segment.total}</div>
+                </div>
+              ))
+            }
 
 
-                
+
 
           </motion.div>
         </motion.div>
