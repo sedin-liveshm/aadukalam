@@ -53,14 +53,6 @@ async function codingPage(req, res) {
             return
         }
 
-        // Reset isFinal to NO if we are re-accessing? 
-        // The original code did this, but maybe we shouldn't if it's completed?
-        // Original code:
-        // await prisma.submission.updateMany({ where: { id: data.id }, data: { isFinal: "NO" } })
-        // If the user is coming back to a COMPLETED submission, maybe we shouldn't reset it to NO?
-        // But if they want to retry, they need a new submission.
-        // For now, let's just return the data so they can view it.
-
         const tc = await prisma.testCase.findMany({
             where: {
                 AND: [
@@ -81,17 +73,27 @@ async function codingPage(req, res) {
         const end = new Date(data.maxTimeToSolve)
 
         const diffSeconds = Math.floor((end - now) / 1000);
-        const diffMinutes = Math.floor(diffSeconds / 60);
-        const remainingSeconds = diffSeconds % 60
+        let displayMinutes = Math.floor(diffSeconds / 60);
+        let displaySeconds = diffSeconds % 60
 
-        // If contest/time is over, we still might want to show the code?
-        if (t.type === "OPEN1") {
-            ip1["Input"] = t.inputString
-            ip1["Output"] = t.outputString
+        if (diffSeconds < 0) {
+            displayMinutes = 0;
+            displaySeconds = 0;
         }
-        else if (t.type === "OPEN2") {
-            ip2["Input"] = t.inputString
-            ip2["Output"] = t.outputString
+
+        let ip1 = {}
+        let ip2 = {}
+        let totaltc = tc.length
+
+        tc.forEach(t => {
+            if (t.type === "OPEN1") {
+                ip1["Input"] = t.inputString
+                ip1["Output"] = t.outputString
+            }
+            else if (t.type === "OPEN2") {
+                ip2["Input"] = t.inputString
+                ip2["Output"] = t.outputString
+            }
         })
 
         console.log(qid)
