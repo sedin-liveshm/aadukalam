@@ -20,7 +20,7 @@ function ContestBasicPage() {
       try {
         const startAttempt = await fetch(`${API_URL}/submission/solve-contest`, {
           method: "POST",
-          body: JSON.stringify({ uname: uname, session: Cookies.get("session"), tname: tname }),
+          body: JSON.stringify({ uname: uname, session: Cookies.get("session"), title: tname }),
           headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json'
