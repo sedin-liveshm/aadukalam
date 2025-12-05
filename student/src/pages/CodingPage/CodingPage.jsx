@@ -291,11 +291,11 @@ public class Main {
               result = data
               console.log("i must be first")
               resolve()
-              return (`Checked successfully`)
+              return `Checked successfully`
             },
             error: (err) => {
               resolve()
-              return (`${err}`)
+              return `${err}`
             },
             style: {
               fontSize:"1.125rem",
@@ -375,11 +375,11 @@ public class Main {
               status2 = true
               console.log("i must be first")
               resolve()
-              return (`Submitted successfully`)
+              return `Submitted successfully`
             },
             error: (err) => {
               resolve()
-              return (`${err}`)
+              return `${err}`
             },
             style: {
               fontSize:"1.125rem",
@@ -417,11 +417,11 @@ public class Main {
                         status = true
                         console.log("i must be first")
                         resolve()
-                        return (`Navigating back`)
+                        return `Navigating back`
                       },
                       error: (err) => {
                         resolve()
-                        return (`${err}`)
+                        return `${err}`
                       },
                       style: {
                         fontSize:"1.125rem",

@@ -36,11 +36,11 @@ function OtpVerifyButton({otp ,rno ,otpdis , setOtpdis}){
                 dt = data
                 console.log("i must be first")
                 resolve()
-                return (`OTP verified!!`)
+                return `OTP verified!!`
               },
               error: (err) => {
                 resolve()
-                return (`${err}`)
+                return `${err}`
               },
               style: {
                 fontSize:"1.125rem",

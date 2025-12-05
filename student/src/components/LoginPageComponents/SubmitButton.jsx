@@ -72,11 +72,11 @@ const handleLogin = async () => {
               dt = data
               console.log("i must be first")
               resolve()
-              return (`Login Successful`)
+              return `Login Successful`
             },
             error: (err) => {
               resolve()
-              return (`${err}`)
+              return `${err}`
             },
             style: {
               fontSize:"1.125rem",
@@ -137,11 +137,11 @@ const handleLogin = async () => {
               dt = data
               console.log("i must be first")
               resolve()
-              return (`OTP sent successfully`)
+              return `OTP sent successfully`
             },
             error: (err) => {
               resolve()
-              return (`${err}`)
+              return `${err}`
             },
             style: {
               fontSize:"1.125rem",

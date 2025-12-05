@@ -70,11 +70,11 @@ const DashboardDetails = ({ type, details , uname }) => {
                   dt = data
                   console.log("i must be first")
                   resolve()
-                  return (`Navigating to question`)
+                  return `Navigating to question`
                 },
                 error: (err) => {
                   resolve()
-                  return (`${err}`)
+                  return `${err}`
                 },
                 style: {
                   fontSize:"1.125rem",
@@ -125,11 +125,11 @@ const DashboardDetails = ({ type, details , uname }) => {
                 dt = data
                 console.log("i must be first")
                 resolve()
-                return (`Navigating to contest`)
+                return `Navigating to contest`
               },
               error: (err) => {
                 resolve()
-                return (`${err}`)
+                return `${err}`
               },
               style: {
                 fontSize:"1.125rem",

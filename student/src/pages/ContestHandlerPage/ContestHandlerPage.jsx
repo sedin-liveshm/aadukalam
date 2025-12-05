@@ -88,11 +88,11 @@ const   ContestHandlerPage = () => {
             dt = data
             console.log("i must be first")
             resolve()
-            return (`Submission successful`)
+            return `Submission successful`
           },
           error: (err) => {
             resolve()
-            return (`${err}`)
+            return `${err}`
           },
           style: {
             fontSize:"1.125rem",

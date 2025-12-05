@@ -69,7 +69,7 @@ const SignUpPage = () => {
         },
         error: (err) => {
           resolve();
-          return (`${err}`);
+          return `${err}`;
         },
         style: {
           fontSize: "1.125rem",
@@ -150,7 +150,7 @@ const SignUpPage = () => {
         },
         error: (err) => {
           resolve();
-          return (`${err}`);
+          return `${err}`;
         },
         style: {
           fontSize: "1.125rem",
@@ -199,7 +199,7 @@ const SignUpPage = () => {
         },
         error: (err) => {
           resolve();
-          return (`${err}`);
+          return `${err}`;
         },
         style: {
           fontSize: "1.125rem",

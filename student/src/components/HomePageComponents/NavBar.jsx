@@ -62,11 +62,11 @@ const NavBar = ({ userData, currentPath, viewMode, rank }) => {
               status = true;
               dt = data;
               resolve();
-              return (`Logged out successfully..!!`);
+              return `Logged out successfully..!!`;
             },
             error: (err) => {
               resolve();
-              return (`${err}`);
+              return `${err}`;
             },
             style: {
               fontSize: "1.125rem",
