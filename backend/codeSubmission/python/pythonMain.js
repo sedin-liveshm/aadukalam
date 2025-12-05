@@ -1,8 +1,29 @@
 const file = require('fs');
 const { PrismaClient } = require('../../dbSchema/generated');
-const { pcopy } = require('./pcopy');
-const { prun } = require('./prun');
 const prisma = new PrismaClient();
+
+// Python execution service URL
+const PYTHON_SERVICE_URL = process.env.PYTHON_SERVICE_URL || 'https://aadukalam-python.onrender.com';
+
+async function executePythonCode(code, input) {
+    try {
+        const response = await fetch(`${PYTHON_SERVICE_URL}/execute`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ code, input }),
+            timeout: 15000
+        });
+        
+        if (!response.ok) {
+            throw new Error(`Service responded with ${response.status}`);
+        }
+        
+        return await response.json();
+    } catch (error) {
+        console.error('Python service error:', error);
+        throw error;
+    }
+}
 
 async function PythonMain(allData) {
     console.log("inside py main -")
@@ -13,43 +34,56 @@ async function PythonMain(allData) {
 
         const question = await prisma.questions.findFirst({
             where: { id: allData.qId },
-            
         });
 
-        const fileName = `Submission_${allData.uname}_${allData.qname}`;
-        console.log("gonna copy")
-        const cp = await pcopy(allData, fileName );
-        if (cp == -1) {
-            return { status: -1, err: "File copy error" };
-        }
-        console.log("copy success")
+        console.log("running test cases via Python service")
         let count = 0;
         let op1 = "", op2 = "";
         
         const resArr = await Promise.all(
             testCases.map(async (testcase) => {
-                let runOP = await prun(fileName, testcase.inputString, testcase.outputString);
-                if (testcase.type === "OPEN1") op1 = runOP.op;
-                if (testcase.type === "OPEN2") op2 = runOP.op;
-                runOP.type = testcase.type
-                runOP.input = testcase.inputString
-                count += parseInt(runOP.count);
-                return runOP;
+                try {
+                    const result = await executePythonCode(allData.code, testcase.inputString);
+                    
+                    let runOP = {
+                        msg: "Successful",
+                        count: 0,
+                        op: result.stdout || "",
+                        type: testcase.type,
+                        input: testcase.inputString
+                    };
+                    
+                    if (result.stderr) {
+                        runOP.err = "Runtime error";
+                        runOP.op = result.stderr;
+                    } else if (result.returncode !== 0) {
+                        runOP.err = "Runtime error";
+                        runOP.op = result.stderr || "Non-zero exit code";
+                    } else {
+                        // Check if output matches
+                        const expectedOutput = `${testcase.outputString}\n`;
+                        if (expectedOutput === result.stdout || testcase.outputString === result.stdout.trim()) {
+                            runOP.count = 1;
+                        }
+                    }
+                    
+                    if (testcase.type === "OPEN1") op1 = runOP.op;
+                    if (testcase.type === "OPEN2") op2 = runOP.op;
+                    
+                    count += parseInt(runOP.count);
+                    return runOP;
+                } catch (error) {
+                    return {
+                        err: "Execution error",
+                        op: error.message,
+                        count: 0,
+                        type: testcase.type,
+                        input: testcase.inputString
+                    };
+                }
             })
         );
-        console.log("run success")
-
-        // Clean up the created file
-        const fs = require('fs');
-        const path = require('path');
-        const filePath = path.join(__dirname, `${fileName}.py`);
-        try {
-            if (fs.existsSync(filePath)) {
-                fs.unlinkSync(filePath);
-            }
-        } catch (cleanupErr) {
-            console.error("Cleanup error:", cleanupErr);
-        }
+        console.log("test cases completed")
 
         return {
             status: 0,

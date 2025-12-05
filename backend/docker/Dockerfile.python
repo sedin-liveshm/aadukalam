@@ -5,56 +5,10 @@ WORKDIR /app
 # Install common Python packages for competitive programming
 RUN pip install --no-cache-dir numpy pandas scipy
 
-# Copy Python execution scripts
-COPY python-code/ ./python-code/
-COPY codeSubmission/python/ ./execution/
+# Copy Python execution server
+COPY docker/python-server.py ./server.py
 
-# Create a simple health check server
-RUN echo 'from http.server import HTTPServer, BaseHTTPRequestHandler\n\
-import json\n\
-import subprocess\n\
-import os\n\
-\n\
-class Handler(BaseHTTPRequestHandler):\n\
-    def do_GET(self):\n\
-        if self.path == "/health":\n\
-            self.send_response(200)\n\
-            self.send_header("Content-type", "application/json")\n\
-            self.end_headers()\n\
-            self.wfile.write(json.dumps({"status": "healthy"}).encode())\n\
-    \n\
-    def do_POST(self):\n\
-        content_length = int(self.headers["Content-Length"])\n\
-        post_data = self.rfile.read(content_length)\n\
-        data = json.loads(post_data.decode())\n\
-        \n\
-        # Execute Python code\n\
-        try:\n\
-            result = subprocess.run(\n\
-                ["python", "-c", data.get("code", "")],\n\
-                capture_output=True,\n\
-                text=True,\n\
-                timeout=5\n\
-            )\n\
-            response = {\n\
-                "stdout": result.stdout,\n\
-                "stderr": result.stderr,\n\
-                "returncode": result.returncode\n\
-            }\n\
-            self.send_response(200)\n\
-        except Exception as e:\n\
-            response = {"error": str(e)}\n\
-            self.send_response(500)\n\
-        \n\
-        self.send_header("Content-type", "application/json")\n\
-        self.end_headers()\n\
-        self.wfile.write(json.dumps(response).encode())\n\
-\n\
-port = int(os.getenv("PORT", 5001))\n\
-server = HTTPServer(("0.0.0.0", port), Handler)\n\
-print(f"Python execution server running on port {port}")\n\
-server.serve_forever()' > server.py
-
-EXPOSE 5001
+EXPOSE 10000
 
 CMD ["python", "server.py"]
+

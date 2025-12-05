@@ -4,8 +4,8 @@ const path = require("path");
 async function prun(fileName, testcaseInput, testCaseOutput) {
     return new Promise((resolve, reject) => {
         const filePath = path.join(__dirname, `${fileName}.py`);
-        // Try python first (Render), fallback to python3 (local)
-        const pythonCmd = process.env.PYTHON_CMD || "python";
+        // Use python3 for Alpine Linux (Render), fallback to python for other systems
+        const pythonCmd = process.env.PYTHON_CMD || "python3";
         const child = spawn(pythonCmd, [filePath]);
 
         var utfEncoder = new TextEncoder("utf-8");

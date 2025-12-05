@@ -1,6 +1,9 @@
 # Multi-stage build for production
 FROM node:18-alpine AS base
 
+# Install Python for code execution
+RUN apk add --no-cache python3 py3-pip
+
 # Install dependencies only when needed
 FROM base AS deps
 WORKDIR /app
@@ -14,6 +17,9 @@ RUN npm ci --only=production
 # Development and production build
 FROM base AS runner
 WORKDIR /app
+
+# Install Python in runner stage as well
+RUN apk add --no-cache python3 py3-pip
 
 # Copy node modules from deps stage
 COPY --from=deps /app/node_modules ./node_modules
