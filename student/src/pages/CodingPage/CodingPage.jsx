@@ -57,12 +57,12 @@ const CodingPage = () => {
         }),{
           loading: "Saving...",
           success: (data)=>{
-            resolve()
-            return (`Successful`)
+            resolve();
+            return `Successful`;
           },
           error: (err) => {
-            resolve()
-            return (`${err}`)
+            resolve();
+            return `${err}`;
           },
           style: {
             fontSize:"1.125rem",
