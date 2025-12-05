@@ -3,7 +3,7 @@ function Signup({signupData , setSignupData ,signUpError , setSignUpError}){
 
     async function verify(val){
         try{
-            const verification = await fetch(`${API_URL}/login-signup/uname-verify",{
+            const verification = await fetch(`${API_URL}/login-signup/uname-verify`,{
                 method:"POST",
                 body: JSON.stringify({"uname":val}),
                 headers:{

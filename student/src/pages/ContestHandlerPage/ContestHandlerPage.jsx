@@ -66,7 +66,7 @@ const   ContestHandlerPage = () => {
     let dt = {}
     const dummy =  await new Promise ((resolve)=>{
         toast.promise(new Promise((resolve,reject)=>{
-          fetch(`${API_URL}/submission/submit-contest", {
+          fetch(`${API_URL}/submission/submit-contest`, {
             method: "POST",
             body: JSON.stringify({ uname: uname, session: Cookies.get("session"), tname: cname }),
             headers: {
@@ -111,7 +111,7 @@ const   ContestHandlerPage = () => {
 
   async function fetchData() {
       try {
-        const details = await fetch(`${API_URL}/basic/contest-handle", {
+        const details = await fetch(`${API_URL}/basic/contest-handle`, {
           method: "POST",
           body: JSON.stringify({ uname: uname, session:Cookies.get("session"), tname: cname }),
           headers: {

@@ -39,7 +39,7 @@ const NavBar = ({ userData, currentPath, viewMode, rank }) => {
       const dummy = await new Promise((resolve) => {
         toast.promise(
           new Promise((resolve, reject) => {
-            fetch(`${API_URL}/login-signup/logout", {
+            fetch(`${API_URL}/login-signup/logout`, {
               method: "POST",
               body: JSON.stringify({ session: Cookies.get("session"), uname: uname }),
               headers: {

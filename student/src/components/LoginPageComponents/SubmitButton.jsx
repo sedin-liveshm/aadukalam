@@ -2,18 +2,14 @@ import { motion } from "framer-motion";
 import { useState } from "react";
 import { data, useNavigate } from "react-router-dom";
 import { Toaster, toast } from "sonner";
-import Cookies from "js-cookie"
-
+import Cookies from "js-cookie";
+import { API_URL } from '../../config';
 
 function SubmitButton({loginData , forgotPassword , setOTPdiv , disable , setDisable}){
 
     const nav = useNavigate();
 
-    
-
-
-    import { API_URL } from '../../config';
-const handleLogin = async () => {
+    const handleLogin = async () => {
 
 
 
@@ -50,7 +46,7 @@ const handleLogin = async () => {
         setDisable(true)
         const dummy =  await new Promise ((resolve)=>{
           toast.promise(new Promise((resolve,reject)=>{
-            fetch(`${API_URL}/login-signup/login", {
+            fetch(`${API_URL}/login-signup/login`, {
               method: "POST",
               body: JSON.stringify(loginData),
               headers: {
@@ -115,7 +111,7 @@ const handleLogin = async () => {
         setDisable(true)
         const dummy =  await new Promise ((resolve)=>{
           toast.promise(new Promise((resolve,reject)=>{
-            fetch(`${API_URL}/login-signup/forgot-password", {
+            fetch(`${API_URL}/login-signup/forgot-password`, {
               method: "POST",
               body: JSON.stringify(loginData),
               headers: {

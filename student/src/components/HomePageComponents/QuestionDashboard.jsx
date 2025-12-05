@@ -14,7 +14,7 @@ const QuestionDashboard = ({details , setDetailsBox , detailsBox , uname}) => {
     if (!questionTitle) return; // Guard clause
     console.log("hi")
     try{
-      const details = await fetch(`${API_URL}/basic/question", {
+      const details = await fetch(`${API_URL}/basic/question`, {
                   method: "POST",
                   body: JSON.stringify({ uname: uname, session: Cookies.get("session"), qname: questionTitle }),
                   headers: {

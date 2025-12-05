@@ -1,10 +1,12 @@
 import { useNavigate } from 'react-router-dom';
 import Cookies from 'js-cookie';
-import './login.css'
+import { API_URL } from '../../config';
+import './login.css';
+
 function SubmitButton({OTPverify ,login,forgotPassword, loginData , signupData , loginError , setLoginError , signupError , setSignupError}){
     const nav = useNavigate();
-    import { API_URL } from '../../config';
-function onSubmit(){
+    
+    function onSubmit(){
         if(OTPverify == false && login=="block"){
             let flag=0;
             if(unameOrRno==""){
@@ -22,7 +24,7 @@ function onSubmit(){
                 setPasswordError({"val":"Kaathula ola otirukken"})
             }
             if(flag==0){
-            fetch(`${API_URL}/login-signup/login",{
+            fetch(`${API_URL}/login-signup/login`,{
                 method: 'Post',
                 headers: {
                   'Content-Type': 'application/json'
@@ -51,7 +53,7 @@ function onSubmit(){
             
         }
         else{
-            fetch(`${API_URL}/login-signup/signup",{
+            fetch(`${API_URL}/login-signup/signup`,{
                 method: 'Post',
                 headers: {
                   'Content-Type': 'application/json'

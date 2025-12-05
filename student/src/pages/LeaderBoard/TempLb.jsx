@@ -13,7 +13,7 @@ const LeaderboardPage = () => {
     async function fetchData() {
 
       try {
-        const details = await fetch(`${API_URL}/basic/leaderBoard", {
+        const details = await fetch(`${API_URL}/basic/leaderBoard`, {
           method: "POST",
           body: JSON.stringify({}),
             headers: {

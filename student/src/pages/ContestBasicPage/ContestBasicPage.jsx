@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import Cookies from 'js-cookie'
 import { ArrowLeft, Clock, Trophy, Calculator, FileQuestion } from 'lucide-react'
+import { API_URL } from '../../config';
 
 function ContestBasicPage() {
   const [contestDetails, setContestDetails] = useState({})
@@ -17,7 +18,7 @@ function ContestBasicPage() {
     } 
     else if (attemptButton === "START NEW ATTEMPT") {
       try {
-        const startAttempt = await fetch(`${API_URL}/submission/solve-contest", {
+        const startAttempt = await fetch(`${API_URL}/submission/solve-contest`, {
           method: "POST",
           body: JSON.stringify({ uname: uname, session: Cookies.get("session"), tname: tname }),
           headers: {
@@ -40,7 +41,7 @@ function ContestBasicPage() {
 
   async function fetchData() {
     try {
-      const details = await fetch(`${API_URL}/basic/contest-basic", {
+      const details = await fetch(`${API_URL}/basic/contest-basic`, {
         method: "POST",
         body: JSON.stringify({ uname: uname, session: Cookies.get("session"), tname: tname }),
         headers: {

@@ -31,7 +31,7 @@ const SignUpPage = () => {
         event.preventDefault();
         event.returnValue = "";
       } else {
-        fetch(`${API_URL}/login-signup/force-quit-signup", { method: "POST" });
+        fetch(`${API_URL}/login-signup/force-quit-signup`, { method: "POST" });
       }
     };
 
@@ -44,7 +44,7 @@ const SignUpPage = () => {
     let dt = {};
     const dummy = await new Promise((resolve) => {
       toast.promise(new Promise((resolve, reject) => {
-        fetch(`${API_URL}/login-signup/uname-verify", {
+        fetch(`${API_URL}/login-signup/uname-verify`, {
           method: "POST",
           body: JSON.stringify({ "uname": val }),
           headers: {
@@ -125,7 +125,7 @@ const SignUpPage = () => {
     let dt = {};
     const dummy = await new Promise((resolve) => {
       toast.promise(new Promise((resolve, reject) => {
-        fetch(`${API_URL}/login-signup/signup", {
+        fetch(`${API_URL}/login-signup/signup`, {
           method: "POST",
           body: JSON.stringify(signupData),
           headers: {
@@ -174,7 +174,7 @@ const SignUpPage = () => {
     setOtpdis(true);
     const dummy = await new Promise((resolve) => {
       toast.promise(new Promise((resolve, reject) => {
-        fetch(`${API_URL}/login-signup/otp-verify-signup", {
+        fetch(`${API_URL}/login-signup/otp-verify-signup`, {
           method: "POST",
           body: JSON.stringify({ rno: signupData.rno, otp: otpData }),
           headers: {

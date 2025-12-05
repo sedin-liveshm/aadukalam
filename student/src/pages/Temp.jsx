@@ -49,7 +49,7 @@ function Temp(){
   const fetchData = async () => {
     const session = Cookies.get("session");
     try {
-      const result = await fetch(`${API_URL}/basic/home", {
+      const result = await fetch(`${API_URL}/basic/home`, {
         method: "POST",
         body: JSON.stringify({ uname, session }),
         headers: {

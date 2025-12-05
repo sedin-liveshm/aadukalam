@@ -24,7 +24,7 @@ function LoginButton({forgotPassword ,loginData , loginError , setLoginError , s
             if (flag){
                 console.log("inside if")
                 try{
-                    const submit = await fetch(`${API_URL}/login-signup/login",{
+                    const submit = await fetch(`${API_URL}/login-signup/login`,{
                         method:"POST",
                         body: JSON.stringify(loginData),
                         headers:{
@@ -56,7 +56,7 @@ function LoginButton({forgotPassword ,loginData , loginError , setLoginError , s
                 flag = false
             }
             try{
-                const otp = await fetch(`${API_URL}/login-signup/forgot-password",{
+                const otp = await fetch(`${API_URL}/login-signup/forgot-password`,{
                     method:"POST",
                     body: JSON.stringify(loginData),
                     headers:{

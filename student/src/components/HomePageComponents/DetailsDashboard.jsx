@@ -48,7 +48,7 @@ const DashboardDetails = ({ type, details , uname }) => {
           setBtnVisible(false)
           const dummy =  await new Promise ((resolve)=>{
               toast.promise(new Promise((resolve,reject)=>{
-                fetch(`${API_URL}/submission/solve-question", {
+                fetch(`${API_URL}/submission/solve-question`, {
                   method: "POST",
                   body: JSON.stringify({ uname: uname, session: Cookies.get("session"), title: qname }),
                   headers: {
@@ -103,7 +103,7 @@ const DashboardDetails = ({ type, details , uname }) => {
         setBtnVisible(false)
         const dummy =  await new Promise ((resolve)=>{
             toast.promise(new Promise((resolve,reject)=>{
-              fetch(`${API_URL}/submission/solve-contest", {
+              fetch(`${API_URL}/submission/solve-contest`, {
                 method: "POST",
                 body: JSON.stringify({ uname: uname, session: Cookies.get("session"), title: cname }),
                 headers: {

@@ -31,7 +31,7 @@ const CodingPage = () => {
   const autoSave = async () => {
     const dummy =  await new Promise ((resolve)=>{
         toast.promise(new Promise((resolve,reject)=>{
-          fetch(`${API_URL}/submission/auto-save-solution", {
+          fetch(`${API_URL}/submission/auto-save-solution`, {
             method: "POST",
             body: JSON.stringify({
                uname: uname,
@@ -160,7 +160,7 @@ public class Main {
   async function fetchData() {
     setLoading(true);
     try {
-      const response = await fetch(`${API_URL}/basic/coding-page", {
+      const response = await fetch(`${API_URL}/basic/coding-page`, {
         method: "POST",
         body: JSON.stringify({ uname: uname, session: Cookies.get("session"), qname: qname }),
         headers: {
@@ -262,7 +262,7 @@ public class Main {
       
       const dummy =  await new Promise ((resolve)=>{
           toast.promise(new Promise((resolve,reject)=>{
-            fetch(`${API_URL}/submission/check-submission", {
+            fetch(`${API_URL}/submission/check-submission`, {
               method: "POST",
               body: JSON.stringify({ 
                 uname: uname, 
@@ -354,7 +354,7 @@ public class Main {
         let status2 = false
         const dummy =  await new Promise ((resolve)=>{
           toast.promise(new Promise((resolve,reject)=>{
-            fetch(`${API_URL}/submission/submit-question", {
+            fetch(`${API_URL}/submission/submit-question`, {
               method: "POST",
               body: JSON.stringify({ uname: uname, session: Cookies.get("session"), sId: details.details.data.id , tname:qname}),
               headers: {
@@ -396,7 +396,7 @@ public class Main {
       }
       const dummy =  await new Promise ((resolve)=>{
                     toast.promise(new Promise((resolve,reject)=>{
-                      fetch(`${API_URL}/submission/submit-question-of-a-contest", {
+                      fetch(`${API_URL}/submission/submit-question-of-a-contest`, {
                         method: "POST",
                         body: JSON.stringify({ uname: uname, session: Cookies.get("session"), submissionId: details.details.data.id}),
                         headers: {

@@ -65,7 +65,7 @@ const Admin = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const details = await fetch(`${API_URL}/admin/load", {
+        const details = await fetch(`${API_URL}/admin/load`, {
           method: "POST",
           body: JSON.stringify(),
           headers: {
@@ -169,7 +169,7 @@ const Admin = () => {
   const handleTopicSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`${API_URL}/admin/addTopic", {
+      const response = await fetch(`${API_URL}/admin/addTopic`, {
         method: "POST",
         body: JSON.stringify({
           description: topicForm.description,
@@ -221,7 +221,7 @@ const Admin = () => {
         JavaBoilerCode:questionForm.javaCode
       };
       
-      const response = await fetch(`${API_URL}/admin/addQuestion", {
+      const response = await fetch(`${API_URL}/admin/addQuestion`, {
         method: "POST",
         body: JSON.stringify({data:payload}),
         headers: {
@@ -287,7 +287,7 @@ const Admin = () => {
         testCaseType: testcaseForm.testCaseType
       };
       
-      const response = await fetch(`${API_URL}/admin/addTestCase", {
+      const response = await fetch(`${API_URL}/admin/addTestCase`, {
         method: "POST",
         body: JSON.stringify({data:payload}),
         headers: {
@@ -333,7 +333,7 @@ const Admin = () => {
         closesOn: contestForm.closesOn
       };
       
-      const response = await fetch(`${API_URL}/admin/addContest", {
+      const response = await fetch(`${API_URL}/admin/addContest`, {
         method: "POST",
         body: JSON.stringify({data:payload}),
         headers: {

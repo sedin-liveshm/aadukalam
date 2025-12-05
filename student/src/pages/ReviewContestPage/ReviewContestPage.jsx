@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import { ArrowLeft, Code } from 'lucide-react';
 import { useNavigate, useParams } from "react-router-dom";
-import Cookies from "js-cookie"
+import Cookies from "js-cookie";
+import { API_URL } from '../../config';
 
 const ReviewContestPage = () => {
   const [reviewData, setReviewData] = useState({});
-  import { API_URL } from '../../config';
-const nav = useNavigate()
-  const {uname , tname}= useParams()
+  const nav = useNavigate();
+  const {uname , tname}= useParams();
 
   async function fetchData() {
     try {
-      const rev = await fetch(`${API_URL}/basic/contest-review", {
+      const rev = await fetch(`${API_URL}/basic/contest-review`, {
         method: "POST",
         body: JSON.stringify({
           session: Cookies.get("session"),

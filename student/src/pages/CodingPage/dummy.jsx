@@ -10,7 +10,7 @@ const DummyPage = () => {
 
   useEffect(()=>{
     console.log("here")
-    fetch(`${API_URL}/admin/load", {
+    fetch(`${API_URL}/admin/load`, {
       method: "POST",
       body: "{}",
       headers: {

@@ -17,7 +17,7 @@ function QuestionPage(){
             if(attempt === "Start New Attempt"){
                 const flag = window.confirm("Sure to start a new attempt????")
                 if(flag){
-                    const createSubmission =  await fetch(`${API_URL}/submission/solve-question",{
+                    const createSubmission =  await fetch(`${API_URL}/submission/solve-question`,{
                         method:"POST",
                         body: JSON.stringify({
                             session:Cookies.get("session"),
@@ -54,7 +54,7 @@ function QuestionPage(){
 
     useEffect(()=>{
         const isSubmittedFunc = async () => {
-            const submissionData = await fetch(`${API_URL}/basic/question",{
+            const submissionData = await fetch(`${API_URL}/basic/question`,{
                 method:"POST",
                 body: JSON.stringify({session:Cookies.get("session"),uname:uname , qname:qname}),
                 headers:{

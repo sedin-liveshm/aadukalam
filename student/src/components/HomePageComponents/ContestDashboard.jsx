@@ -6,7 +6,7 @@ const ContestsDashboard = ({details , setDetailsBox , uname}) => {
   async function handleClick(contestTitle) {
     if (!contestTitle) return; // Guard clause
     try {
-      const details = await fetch(`${API_URL}/basic/contest-basic", {
+      const details = await fetch(`${API_URL}/basic/contest-basic`, {
         method: "POST",
         body: JSON.stringify({ uname: uname, session: Cookies.get("session"), tname: contestTitle }),
         headers: {
