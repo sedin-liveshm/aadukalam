@@ -1,28 +1,28 @@
 const { PrismaClient } = require("../../dbSchema/generated");
 
-const prisma =  new PrismaClient();
+const prisma = new PrismaClient();
 
-async function leaderBoard(req,res) {
-    console.log("Vanakkam da dei")
-    try{
+async function leaderBoard(req, res) {
+    try {
         const details = await prisma.submission.findMany({
-            include:{
-                questions:{
-                    include:{
-                        contest:true
+            include: {
+                questions: {
+                    include: {
+                        contest: true
                     }
                 }
             }
         })
-        console.log(details)
+
         res.status(200).json({
-            msg:"Successful"
+            msg: "Successful",
+            data: details
         })
     }
-    catch(error){
+    catch (error) {
         console.log(error);
         res.status(400).json({
-            err:"internal error"
+            err: "internal error"
         })
     }
 }
