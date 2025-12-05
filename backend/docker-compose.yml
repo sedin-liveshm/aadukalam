@@ -1,0 +1,37 @@
+services:
+
+  cpp:
+    image: gcc:latest
+    container_name: cpp_container
+    command: tail -f /dev/null
+    volumes:
+    - ./cpp-code:/app
+    working_dir: /app
+    entrypoint: ["/bin/sh", "-c", "apt update && apt install -y gdb && tail -f /dev/null"]
+
+
+  python:
+    image: python:latest
+    container_name: python_container
+    command: tail -f /dev/null
+    volumes:
+      - ./python-code:/app
+    working_dir: /app
+  c:
+    image: gcc:latest
+    container_name: c_container
+    command: tail -f /dev/null
+    volumes:
+      - ./c-code:/app
+    working_dir: /app
+    entrypoint: ["/bin/sh", "-c", "apt update && apt install -y gdb && tail -f /dev/null"]
+
+
+
+  java:
+    image: amazoncorretto:17      
+    container_name: java_container
+    command: tail -f /dev/null
+    volumes:
+      - ./java-code:/app
+    working_dir: /app

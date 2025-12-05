@@ -1,0 +1,9 @@
+**/**/node_modules
+**/**/.env
+
+# Deployment guides and setup files
+DEPLOYMENT_GUIDE.md
+DEPLOYMENT_COMMANDS.md
+GIT_SETUP.md
+PUSH_TO_GITHUB.md
+setup-git.ps1

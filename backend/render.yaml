@@ -1,0 +1,56 @@
+services:
+  # Main Node.js Backend
+  - type: web
+    name: aadukalam-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 4000
+    healthCheckPath: /
+    
+  # Python Code Execution Service
+  - type: web
+    name: aadukalam-python
+    env: docker
+    dockerfilePath: ./backend/docker/Dockerfile.python
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 5001
+    healthCheckPath: /health
+
+  # C/C++ Code Execution Service
+  - type: web
+    name: aadukalam-cpp
+    env: docker
+    dockerfilePath: ./backend/docker/Dockerfile.cpp
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 5002
+    healthCheckPath: /health
+
+  # Java Code Execution Service
+  - type: web
+    name: aadukalam-java
+    env: docker
+    dockerfilePath: ./backend/docker/Dockerfile.java
+    dockerContext: ./backend
+    plan: free
+    region: oregon
+    envVars:
+      - key: PORT
+        value: 5003
+    healthCheckPath: /health

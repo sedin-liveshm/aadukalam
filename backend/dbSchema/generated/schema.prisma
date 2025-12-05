@@ -1,0 +1,193 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// MongoDB Configuration
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+// MongoDB doesn't support enums - using String with validation in application code
+
+model Student {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  rno             String    @unique
+  uname           String    @unique
+  leetCodeName    String?   @unique
+  salt            String
+  hash            String
+  timeOfLastSolve DateTime?
+
+  //relationships
+  submission          Submission[]
+  studentAchievements StudentAchievements[]
+  session             Session?
+  discussion          Discussions[]
+}
+
+model Topics {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  name        String  @unique
+  description String?
+  notes       String? @unique
+
+  //relationships
+  question Questions[]
+}
+
+model Questions {
+  id                      String  @id @default(auto()) @map("_id") @db.ObjectId
+  title                   String
+  description             String
+  miniDescription         String?
+  topicId                 String? @db.ObjectId
+  noOfHiddenTestCases     Int     @default(18)
+  noOfExternalTestCases   Int     @default(2)
+  difficulty              String  @default("EASY") // EASY, BALANCED, INTENSE, HELL
+  pointsPerTestCaseSolved Int
+  type                    String  @default("PRACTICE") // PRACTICE, CONTEST
+  leetCodeLink            String?
+  leetCodeTitle           String?
+  timeToSolveInMinutes    Int?
+  contestId               String? @db.ObjectId
+  JavaImports             String  @default("import java.util.*")
+  JavaBoilerCode          String  @default("Hi")
+  CBoilerCode             String  @default("Hi")
+  CppBoilerCode           String  @default("Hi")
+  PythonBoilerCode        String  @default("Hi")
+
+  //relationships
+  testCase   TestCase[]
+  submission Submission[]
+  discussion Discussions[]
+  topics     Topics?       @relation(fields: [topicId], references: [id])
+  contest    Contest?      @relation(fields: [contestId], references: [id])
+
+  @@map("questions")
+}
+
+model TestCase {
+  id           String @id @default(auto()) @map("_id") @db.ObjectId
+  inputString  String
+  outputString String
+  questionId   String @db.ObjectId
+  type         String @default("OPEN1") // OPEN1, OPEN2, HIDDEN
+
+  //relationships
+  questions Questions @relation(fields: [questionId], references: [id])
+}
+
+model Submission {
+  id              String    @id @default(auto()) @map("_id") @db.ObjectId
+  questionId      String    @db.ObjectId
+  studentId       String    @db.ObjectId
+  startTime       DateTime
+  maxTimeToSolve  DateTime
+  submittedOn     DateTime?
+  status          String    @default("WAITING") // COMPUTING, COMPLETED, WAITING
+  noOfCasesPassed Int       @default(0)
+  pointsSecured   Int       @default(0)
+  type            String    @default("WEBSITE") // WEBSITE, LEETCODE
+  output1         String?
+  output2         String?
+  isFinal         String    @default("NO") // YES, NO
+  code            String?
+  leetCodeLink    String?
+  language        String? // PYTHON, C, JAVA, CPP
+  savedCCode      String    @default("Hi")
+  savedCppCode    String    @default("Hi")
+  savedJavaCode   String    @default("Hi")
+  savedPythonCode String    @default("Hi")
+  failedForInput  String?
+  isChecked       String    @default("NO") // YES, NO
+  output1Status   String    @default("NO") // YES, NO
+  output2Status   String    @default("NO") // YES, NO
+
+  //relationships
+  questions Questions @relation(fields: [questionId], references: [id])
+  student   Student   @relation(fields: [studentId], references: [id])
+}
+
+model Achievements {
+  id          String  @id @default(auto()) @map("_id") @db.ObjectId
+  title       String  @unique
+  description String?
+
+  //relationships
+  studentAchievements StudentAchievements[]
+}
+
+model StudentAchievements {
+  id            String @id @default(auto()) @map("_id") @db.ObjectId
+  studentId     String @db.ObjectId
+  achievementId String @db.ObjectId
+  count         Int
+
+  //relationships
+  student      Student      @relation(fields: [studentId], references: [id])
+  achievements Achievements @relation(fields: [achievementId], references: [id])
+
+  @@index([count])
+}
+
+model OTPStudent {
+  id              String   @id @default(auto()) @map("_id") @db.ObjectId
+  name            String
+  rno             String   @unique
+  uname           String   @unique
+  salt            String
+  hash            String
+  leetCodeProfile String?
+  otp             String
+  expiry          DateTime
+  status          String   @default("PENDING") // PENDING, APPROVED
+
+  @@map("otpstudents")
+}
+
+model Session {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId String   @unique @db.ObjectId
+  session   String
+  expiry    DateTime
+
+  //relationships
+  student Student @relation(fields: [studentId], references: [id])
+}
+
+model Discussions {
+  id            String   @id @default(auto()) @map("_id") @db.ObjectId
+  studentId     String   @db.ObjectId
+  type          String   @default("GENERAL") // GENERAL, SPECIFIC
+  questionId    String?  @db.ObjectId
+  repliedTo     String?  @db.ObjectId
+  timeOfComment DateTime
+
+  //relationships
+  student      Student       @relation(fields: [studentId], references: [id])
+  question     Questions?    @relation(fields: [questionId], references: [id])
+  toWhomIReply Discussions?  @relation("SelfMapping", fields: [repliedTo], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  repliesIGet  Discussions[] @relation("SelfMapping")
+}
+
+model Contest {
+  id                   String   @id @default(auto()) @map("_id") @db.ObjectId
+  miniDescription      String?
+  title                String   @unique
+  opensOn              DateTime
+  closesOn             DateTime
+  timeToSolveInMinutes Int
+  totalPoints          Int
+  totalNoOfQuestions   Int
+  resultPublished      Int      @default(0)
+
+  //relationships
+  question Questions[]
+}

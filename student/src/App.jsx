@@ -1,0 +1,76 @@
+import './index.css'
+import { Editor } from '@monaco-editor/react'
+import { BrowserRouter , Routes , Route, Navigate } from 'react-router-dom'
+import LoginPage from './pages/LoginPage/LoginPage'
+import CodingPage from './pages/CodingPage/CodingPage'
+import LeaderBoardPage from './pages/LeaderBoard/LeaderBoardPage'
+import HomePage from './pages/Homepage/HomePage'
+import SignUpPage from './pages/SignUpPage/SignUpPage'
+import HelloPage from './pages/HelloPage/HelloPage'
+import QuestionPage from './pages/QuestionPage/QuestionPage'
+import ContestBasicPage from './pages/ContestBasicPage/ContestBasicPage'
+import ReviewQuestionPage from './pages/ReviewQuestionPage/ReviewQuestionPage'
+import ReviewContestPage from './pages/ReviewContestPage/ReviewContestPage'
+import ContestHandlerPage from './pages/ContestHandlerPage/ContestHandlerPage'
+import DummyPage from './pages/CodingPage/dummy'
+import TextScramble from './pages/dummy'
+import ChangePasswordPage from './pages/passwordChangePage/ChangePasswordPage'
+import DiscussionsPage from './pages/DiscussionsPage/DiscussionsPage'
+import AdminDetails from './pages/AdminPage/AdminDetails'
+// import ScrollAnimation from './pages/HelloPage/Hel
+import EnhancedAnimation from './pages/HelloPage/HelloTwo'
+import ScrollAnimation from './pages/HelloPage/HelloTwo'
+import SimpleScrollAnimation from './pages/HelloPage/HelloTwo'
+import CssDoodleAnimation from './pages/dummy'
+import SnowBackground from './pages/dummy'
+import HelloThree from './pages/HelloPage/Hello3'
+import LanderPage from './pages/VeraRoute/VeraPage'
+import AboutUs from './pages/AboutUsPage/AboutUs'
+import Temp from './pages/Temp'
+import ProfilePage from './pages/ProfilePage/ProfilePage'
+import PieChart from './components/HomePageComponents/PieChart'
+import LeaderBoard from './pages/LeaderBoard/TempLb'
+
+function App() {
+
+  return (
+    <BrowserRouter>
+      <Routes>
+        
+        <Route path='/login' element={<LoginPage />}/>
+        <Route path='/:uname' element={<HomePage />}/>
+        <Route path='/:uname/code/:tname/:qname' element={<CodingPage />}/>
+        <Route path='/:uname/leaderboard' element={<LeaderBoardPage />}/>
+        <Route path='/:uname/discussions' element={<DiscussionsPage />}/>
+        <Route path='/signup' element={<SignUpPage />}/>
+        <Route path='/' element={<LanderPage />} />
+        <Route path='/hello2' element={<SimpleScrollAnimation />} />
+        <Route path='/hello3' element={<HelloThree />} />
+        <Route path='/hello4' element={<SnowBackground />} />
+        <Route path='/lander' element={<LanderPage />} />
+        <Route path='/about' element={<AboutUs />} />
+        <Route path='/temp/:uname' element={<Temp />} />
+        <Route path='/profile/:uname' element={<ProfilePage />} />
+        <Route path='/temp/LeaderBoard/:uname' element={<LeaderBoard />} />
+
+        <Route path='/pie' element={<PieChart />} />
+
+
+
+
+        <Route path='/:uname/question/:qname' element={<CodingPage />} />
+        <Route path='/:uname/contest/:tname' element={<ContestBasicPage />} />
+        <Route path='/:uname/contest-handler/:cname' element={<ContestHandlerPage />} />
+        <Route path='/:uname/review-question/:qname' element={<ReviewQuestionPage />} />
+        <Route path='/:uname/review-contest/:tname' element={<ReviewContestPage />} />
+        <Route path='/admin' element={<AdminDetails />} />
+        <Route path='*' element={<Navigate to={"/"} />} />
+        <Route path='/:uname/dummy/:tname/:qname' element={<DummyPage />} />
+        <Route path='/:uname/change-password' element={<ChangePasswordPage />} />
+
+      </Routes>
+    </BrowserRouter>
+  )
+}
+
+export default App

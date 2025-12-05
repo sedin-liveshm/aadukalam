@@ -1,0 +1,249 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output = "../generated"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CommentType {
+  GENERAL
+  SPECIFIC
+}
+
+enum isFinalType {
+  YES
+  NO
+}
+
+enum TestCaseType {
+  OPEN1
+  OPEN2
+  HIDDEN
+}
+
+enum DifficultyType {
+  EASY
+  BALANCED
+  INTENSE
+  HELL
+}
+
+enum AcceptedType {
+  COMPUTING
+  COMPLETED
+  WAITING
+}
+
+enum QuestionType {
+  PRACTICE
+  CONTEST
+}
+
+enum SubmissionType{
+  WEBSITE
+  LEETCODE
+}
+
+enum OTPStatus {
+  PENDING
+  APPROVED
+}
+
+enum LanguageType {
+  PYTHON
+  C
+  JAVA
+  CPP
+}
+
+enum BoilerType {
+  TO_USER
+  MAIN
+}
+
+model Student {
+  id Int @id @default(autoincrement())
+  name String 
+  rno String @unique
+  uname String @unique
+  leetCodeName String? @unique
+  salt String
+  hash String
+  timeOfLastSolve DateTime?
+  
+  //relationships
+  submission Submission[]
+  studentAchievements StudentAchievements[]
+  session Session?
+  discussion Discussions[]
+}
+
+model Topics {
+  id Int @id @default(autoincrement())
+  name String @unique
+  description String?
+  notes String? @unique
+
+  //relationships
+  question Questions[]
+}
+
+model Questions {
+  id Int @id @default(autoincrement())
+  title String 
+  description String
+  miniDescription String?
+  topic Int?
+  noOfHiddenTestCases Int @default(18)
+  noOfExternalTestCases Int @default(2)
+  difficulty DifficultyType @default(EASY)
+  pointsPerTestCaseSolved Int 
+  type QuestionType @default(PRACTICE)
+  leetCodeLink String?
+  leetCodeTitle String?
+  timeToSolveInMinutes Int?
+  contestId Int?
+  JavaImports String @default("import java.util.*")
+  JavaBoilerCode String @default("Hi")
+  CBoilerCode String @default("Hi")
+  CppBoilerCode String @default("Hi")
+  PythonBoilerCode String @default("Hi")
+
+  //relationships
+  testCase TestCase[]
+  submission Submission[]
+  discussion Discussions[]
+  topics Topics? @relation(fields: [topic],references:[id])
+  contest Contest? @relation(fields: [contestId],references:[id])
+}
+
+model TestCase {
+  id Int @id @default(autoincrement())
+  inputString String 
+  outputString String
+  questionId Int
+  type TestCaseType @default(OPEN1)
+
+  //relationships
+  questions Questions @relation(fields: [questionId], references: [id])
+}
+
+model Submission {
+  id Int @id @default(autoincrement()) 
+  questionId Int
+  studentId Int
+  startTime DateTime
+  maxTimeToSolve DateTime
+  submittedOn DateTime?
+  status AcceptedType @default(WAITING)
+  noOfCasesPassed Int @default(0)
+  pointsSecured Int @default(0)  
+  type SubmissionType @default(WEBSITE)
+  output1 String?
+  output2 String?
+  isFinal isFinalType @default(NO)
+  code String?
+  leetCodeLink String?
+  language LanguageType?
+  savedCCode String @default("Hi")
+  savedCppCode String @default("Hi")
+  savedJavaCode String @default("Hi")
+  savedPythonCode String @default("Hi")
+  failedForInput String? 
+  isChecked isFinalType @default(NO)
+  output1Status isFinalType @default(NO)
+  output2Status isFinalType @default(NO)
+
+  //relationships
+  questions Questions @relation(fields: [questionId], references: [id])
+  student Student @relation(fields: [studentId], references: [id])
+
+}
+
+model Achievements {
+  id Int @id @default(autoincrement())
+  title String @unique
+  
+  description String?
+  
+  //relationships
+  studentAchievements StudentAchievements[]
+}
+
+model StudentAchievements {
+  id Int @id @default(autoincrement())
+  studentId Int
+  achievementId Int
+  count Int 
+
+  //relationships
+  student Student @relation(fields: [studentId], references: [id])
+  achievements Achievements @relation(fields: [achievementId], references: [id])
+
+  @@index([count])
+}
+
+
+model OTPStudent {
+  id Int @id @default(autoincrement())
+  name String 
+  rno String @unique
+  uname String @unique
+  salt String
+  hash String
+  leetCodeProfile String?
+  otp String 
+  expiry DateTime
+  status OTPStatus @default(PENDING)
+}
+
+model Session {
+  id Int @id @default(autoincrement())
+  studentId Int @unique
+  session String
+  expiry DateTime
+
+  //relationships
+  student Student @relation(fields: [studentId],references:[id])
+}
+
+model Discussions {
+  id Int @id @default(autoincrement())
+  studentId Int
+  type CommentType @default(GENERAL)
+  questionId Int?
+  repliedTo Int?
+  timeOfComment DateTime
+
+  //relationships
+  student Student @relation(fields: [studentId],references:[id])
+  question Questions? @relation(fields: [questionId],references:[id])
+  toWhomIReply Discussions? @relation("SelfMapping",fields: [repliedTo] , references:[id])
+  repliesIGet Discussions[] @relation("SelfMapping")
+}
+
+
+
+model Contest {
+  id Int @id @default(autoincrement())
+  miniDescription String?
+  title String @unique
+  opensOn DateTime
+  closesOn DateTime
+  timeToSolveInMinutes Int
+  totalPoints Int
+  totalNoOfQuestions Int
+  resultPublished Int @default(0)
+
+  //relationships
+  question Questions[]
+}
