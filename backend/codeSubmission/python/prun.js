@@ -4,7 +4,9 @@ const path = require("path");
 async function prun(fileName, testcaseInput, testCaseOutput) {
     return new Promise((resolve, reject) => {
         const filePath = path.join(__dirname, `${fileName}.py`);
-        const child = spawn("python3", [filePath]);
+        // Try python first (Render), fallback to python3 (local)
+        const pythonCmd = process.env.PYTHON_CMD || "python";
+        const child = spawn(pythonCmd, [filePath]);
 
         var utfEncoder = new TextEncoder("utf-8");
         var utfDecoder = new TextDecoder("utf-8");
