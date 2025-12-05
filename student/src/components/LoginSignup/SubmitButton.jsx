@@ -3,7 +3,8 @@ import Cookies from 'js-cookie';
 import './login.css'
 function SubmitButton({OTPverify ,login,forgotPassword, loginData , signupData , loginError , setLoginError , signupError , setSignupError}){
     const nav = useNavigate();
-    function onSubmit(){
+    import { API_URL } from '../../config';
+function onSubmit(){
         if(OTPverify == false && login=="block"){
             let flag=0;
             if(unameOrRno==""){
@@ -21,7 +22,7 @@ function SubmitButton({OTPverify ,login,forgotPassword, loginData , signupData ,
                 setPasswordError({"val":"Kaathula ola otirukken"})
             }
             if(flag==0){
-            fetch("http://localhost:4000/login-signup/login",{
+            fetch(`${API_URL}/login-signup/login",{
                 method: 'Post',
                 headers: {
                   'Content-Type': 'application/json'
@@ -50,7 +51,7 @@ function SubmitButton({OTPverify ,login,forgotPassword, loginData , signupData ,
             
         }
         else{
-            fetch("http://localhost:4000/login-signup/signup",{
+            fetch(`${API_URL}/login-signup/signup",{
                 method: 'Post',
                 headers: {
                   'Content-Type': 'application/json'

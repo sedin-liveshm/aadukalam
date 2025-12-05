@@ -35,6 +35,7 @@ import DetailsDashBoard from "../components/HomePageComponents/DetailsDashboard"
 
 
 
+import { API_URL } from '../config';
 function Temp(){
 
 
@@ -48,7 +49,7 @@ function Temp(){
   const fetchData = async () => {
     const session = Cookies.get("session");
     try {
-      const result = await fetch("http://localhost:4000/basic/home", {
+      const result = await fetch(`${API_URL}/basic/home", {
         method: "POST",
         body: JSON.stringify({ uname, session }),
         headers: {

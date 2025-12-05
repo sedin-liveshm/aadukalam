@@ -5,6 +5,7 @@ import { toast, Toaster } from 'sonner';
 import Cookies from 'js-cookie';
 import Header from '../../components/LoginPageComponents/Header';
 
+import { API_URL } from '../../config';
 const SignUpPage = () => {
   
   const nav = useNavigate();
@@ -30,7 +31,7 @@ const SignUpPage = () => {
         event.preventDefault();
         event.returnValue = "";
       } else {
-        fetch("http://localhost:4000/login-signup/force-quit-signup", { method: "POST" });
+        fetch(`${API_URL}/login-signup/force-quit-signup", { method: "POST" });
       }
     };
 
@@ -43,7 +44,7 @@ const SignUpPage = () => {
     let dt = {};
     const dummy = await new Promise((resolve) => {
       toast.promise(new Promise((resolve, reject) => {
-        fetch("http://localhost:4000/login-signup/uname-verify", {
+        fetch(`${API_URL}/login-signup/uname-verify", {
           method: "POST",
           body: JSON.stringify({ "uname": val }),
           headers: {
@@ -124,7 +125,7 @@ const SignUpPage = () => {
     let dt = {};
     const dummy = await new Promise((resolve) => {
       toast.promise(new Promise((resolve, reject) => {
-        fetch("http://localhost:4000/login-signup/signup", {
+        fetch(`${API_URL}/login-signup/signup", {
           method: "POST",
           body: JSON.stringify(signupData),
           headers: {
@@ -173,7 +174,7 @@ const SignUpPage = () => {
     setOtpdis(true);
     const dummy = await new Promise((resolve) => {
       toast.promise(new Promise((resolve, reject) => {
-        fetch("http://localhost:4000/login-signup/otp-verify-signup", {
+        fetch(`${API_URL}/login-signup/otp-verify-signup", {
           method: "POST",
           body: JSON.stringify({ rno: signupData.rno, otp: otpData }),
           headers: {

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
+import { API_URL } from '../../config';
 const Admin = () => {
   
   // State management
@@ -64,7 +65,7 @@ const Admin = () => {
   useEffect(() => {
     async function fetchData() {
       try {
-        const details = await fetch("http://localhost:4000/admin/load", {
+        const details = await fetch(`${API_URL}/admin/load", {
           method: "POST",
           body: JSON.stringify(),
           headers: {
@@ -168,7 +169,7 @@ const Admin = () => {
   const handleTopicSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:4000/admin/addTopic", {
+      const response = await fetch(`${API_URL}/admin/addTopic", {
         method: "POST",
         body: JSON.stringify({
           description: topicForm.description,
@@ -220,7 +221,7 @@ const Admin = () => {
         JavaBoilerCode:questionForm.javaCode
       };
       
-      const response = await fetch("http://localhost:4000/admin/addQuestion", {
+      const response = await fetch(`${API_URL}/admin/addQuestion", {
         method: "POST",
         body: JSON.stringify({data:payload}),
         headers: {
@@ -286,7 +287,7 @@ const Admin = () => {
         testCaseType: testcaseForm.testCaseType
       };
       
-      const response = await fetch("http://localhost:4000/admin/addTestCase", {
+      const response = await fetch(`${API_URL}/admin/addTestCase", {
         method: "POST",
         body: JSON.stringify({data:payload}),
         headers: {
@@ -332,7 +333,7 @@ const Admin = () => {
         closesOn: contestForm.closesOn
       };
       
-      const response = await fetch("http://localhost:4000/admin/addContest", {
+      const response = await fetch(`${API_URL}/admin/addContest", {
         method: "POST",
         body: JSON.stringify({data:payload}),
         headers: {

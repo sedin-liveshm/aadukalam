@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { toast, Toaster } from "sonner";
 
+import { API_URL } from '../../config';
 const NavBar = ({ userData, currentPath, viewMode, rank }) => {
     const [showProfile, setShowProfile] = useState(false);
     const profileRef = useRef(null);
@@ -38,7 +39,7 @@ const NavBar = ({ userData, currentPath, viewMode, rank }) => {
       const dummy = await new Promise((resolve) => {
         toast.promise(
           new Promise((resolve, reject) => {
-            fetch("http://localhost:4000/login-signup/logout", {
+            fetch(`${API_URL}/login-signup/logout", {
               method: "POST",
               body: JSON.stringify({ session: Cookies.get("session"), uname: uname }),
               headers: {

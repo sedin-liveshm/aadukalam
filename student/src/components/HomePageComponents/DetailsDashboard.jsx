@@ -17,6 +17,7 @@ import { toast, Toaster } from 'sonner';
 import Cookies from "js-cookie";
 
 
+import { API_URL } from '../../config';
 const DashboardDetails = ({ type, details , uname }) => {
   const [btnVisible , setBtnVisible] = useState(true)
   const [activeTab, setActiveTab] = useState("details");
@@ -47,7 +48,7 @@ const DashboardDetails = ({ type, details , uname }) => {
           setBtnVisible(false)
           const dummy =  await new Promise ((resolve)=>{
               toast.promise(new Promise((resolve,reject)=>{
-                fetch("http://localhost:4000/submission/solve-question", {
+                fetch(`${API_URL}/submission/solve-question", {
                   method: "POST",
                   body: JSON.stringify({ uname: uname, session: Cookies.get("session"), title: qname }),
                   headers: {
@@ -102,7 +103,7 @@ const DashboardDetails = ({ type, details , uname }) => {
         setBtnVisible(false)
         const dummy =  await new Promise ((resolve)=>{
             toast.promise(new Promise((resolve,reject)=>{
-              fetch("http://localhost:4000/submission/solve-contest", {
+              fetch(`${API_URL}/submission/solve-contest", {
                 method: "POST",
                 body: JSON.stringify({ uname: uname, session: Cookies.get("session"), title: cname }),
                 headers: {

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom"
 import Cookies from 'js-cookie';
 
+import { API_URL } from '../../config';
 function LoginButton({forgotPassword ,loginData , loginError , setLoginError , setOtpDiv}){
     const name = forgotPassword.style!=="hidden"?"Login":"Send Otp"
     const nav = useNavigate();
@@ -23,7 +24,7 @@ function LoginButton({forgotPassword ,loginData , loginError , setLoginError , s
             if (flag){
                 console.log("inside if")
                 try{
-                    const submit = await fetch("http://localhost:4000/login-signup/login",{
+                    const submit = await fetch(`${API_URL}/login-signup/login",{
                         method:"POST",
                         body: JSON.stringify(loginData),
                         headers:{
@@ -55,7 +56,7 @@ function LoginButton({forgotPassword ,loginData , loginError , setLoginError , s
                 flag = false
             }
             try{
-                const otp = await fetch("http://localhost:4000/login-signup/forgot-password",{
+                const otp = await fetch(`${API_URL}/login-signup/forgot-password",{
                     method:"POST",
                     body: JSON.stringify(loginData),
                     headers:{

@@ -1,11 +1,12 @@
 import Cookies from 'js-cookie';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../../../config';
 function VerifyButton({type,rno,otp}){
     const nav = useNavigate();
     async function verify(){
         try{
             console.log(JSON.stringify(otp))
-            const verification = await fetch(`http://localhost:4000/login-signup/otp-verify-${type}`,{
+            const verification = await fetch(`${API_URL}/login-signup/otp-verify-${type}`,{
                 method:"POST",
                 body: JSON.stringify({rno:rno,otp:otp}),
                 headers:{

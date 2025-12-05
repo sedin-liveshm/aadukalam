@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Cookies from 'js-cookie'
 import Header from "../../components/Common/Header";
 import ReviewDiv from "../../components/QuestionPageComponents/ReviewDiv";
+import { API_URL } from '../../config';
 function QuestionPage(){
     const {uname,qname}= useParams();
     const [questionData , setQuestionData] = useState({})
@@ -16,7 +17,7 @@ function QuestionPage(){
             if(attempt === "Start New Attempt"){
                 const flag = window.confirm("Sure to start a new attempt????")
                 if(flag){
-                    const createSubmission =  await fetch("http://localhost:4000/submission/solve-question",{
+                    const createSubmission =  await fetch(`${API_URL}/submission/solve-question",{
                         method:"POST",
                         body: JSON.stringify({
                             session:Cookies.get("session"),
@@ -53,7 +54,7 @@ function QuestionPage(){
 
     useEffect(()=>{
         const isSubmittedFunc = async () => {
-            const submissionData = await fetch("http://localhost:4000/basic/question",{
+            const submissionData = await fetch(`${API_URL}/basic/question",{
                 method:"POST",
                 body: JSON.stringify({session:Cookies.get("session"),uname:uname , qname:qname}),
                 headers:{

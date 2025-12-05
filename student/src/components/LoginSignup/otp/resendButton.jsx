@@ -1,7 +1,7 @@
 function ResendButton({rno}){
     async function resendOtp(){
         try{
-            const resend = await fetch("http://localhost:4000/login-signup/otp-resend",{
+            const resend = await fetch(`${API_URL}/login-signup/otp-resend",{
                 method:"POST",
                 body: JSON.stringify({rno:rno}),
                 headers:{

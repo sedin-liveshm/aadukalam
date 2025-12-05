@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import Cookies from "js-cookie";
 
+import { API_URL } from '../../config';
 const QuestionDashboard = ({details , setDetailsBox , detailsBox , uname}) => {
 
   // console.log(JSON.stringify(details))
@@ -13,7 +14,7 @@ const QuestionDashboard = ({details , setDetailsBox , detailsBox , uname}) => {
     if (!questionTitle) return; // Guard clause
     console.log("hi")
     try{
-      const details = await fetch("http://localhost:4000/basic/question", {
+      const details = await fetch(`${API_URL}/basic/question", {
                   method: "POST",
                   body: JSON.stringify({ uname: uname, session: Cookies.get("session"), qname: questionTitle }),
                   headers: {

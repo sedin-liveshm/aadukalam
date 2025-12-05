@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import Cookies from "js-cookie";
 import React from 'react';
 import { Mail, Linkedin, Instagram } from 'lucide-react';
+import { API_URL } from '../../config';
 import {ExternalLink } from 'lucide-react';
 
 import { 
@@ -54,7 +55,7 @@ function HomePage(){
   const fetchData = async () => {
     const session = Cookies.get("session");
     try {
-      const result = await fetch("http://localhost:4000/basic/home", {
+      const result = await fetch(`${API_URL}/basic/home`, {
         method: "POST",
         body: JSON.stringify({ uname, session }),
         headers: {

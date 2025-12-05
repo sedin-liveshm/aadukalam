@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react';
 import Select from "react-select";
 
 
+import { API_URL } from '../../config';
 const LeaderboardPage = () => {
   const [timeFilter, setTimeFilter] = useState('all');
 
@@ -12,7 +13,7 @@ const LeaderboardPage = () => {
     async function fetchData() {
 
       try {
-        const details = await fetch("http://localhost:4000/basic/leaderBoard", {
+        const details = await fetch(`${API_URL}/basic/leaderBoard", {
           method: "POST",
           body: JSON.stringify({}),
             headers: {

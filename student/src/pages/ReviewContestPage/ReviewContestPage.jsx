@@ -5,12 +5,13 @@ import Cookies from "js-cookie"
 
 const ReviewContestPage = () => {
   const [reviewData, setReviewData] = useState({});
-  const nav = useNavigate()
+  import { API_URL } from '../../config';
+const nav = useNavigate()
   const {uname , tname}= useParams()
 
   async function fetchData() {
     try {
-      const rev = await fetch("http://localhost:4000/basic/contest-review", {
+      const rev = await fetch(`${API_URL}/basic/contest-review", {
         method: "POST",
         body: JSON.stringify({
           session: Cookies.get("session"),
