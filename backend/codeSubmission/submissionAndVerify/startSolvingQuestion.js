@@ -46,8 +46,8 @@ async function startSolvingQuestion(req,res) {
         const utc = new Date();
         const now = new Date(utc.getTime()+5.5*60*60*1000);
         const end = new Date(now.getTime()+question.timeToSolveInMinutes*60*1000)
-        const create = await prisma.submission.createManyAndReturn({
-            data:[{
+        const create = await prisma.submission.create({
+            data:{
                 questionId:question.id,
                 studentId:session.id,
                 startTime:now,
@@ -58,14 +58,14 @@ async function startSolvingQuestion(req,res) {
                 savedCppCode:question.CppBoilerCode,
                 savedJavaCode:question.JavaBoilerCode,
                 savedPythonCode:question.PythonBoilerCode,
-            }]
+            }
         })
-        await prisma.submission.updateMany({
+        await prisma.submission.update({
             where:{
-                id:create[0].id
+                id:create.id
             },
         data:{
-            savedJavaCode:`${question.JavaImports}\npublic class Submission_${create[0].id} {\n${question.JavaBoilerCode}\n}`
+            savedJavaCode:`${question.JavaImports}\npublic class Submission_${create.id} {\n${question.JavaBoilerCode}\n}`
         }
         })
         res.status(200).json({

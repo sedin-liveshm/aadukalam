@@ -101,15 +101,15 @@ async function startSolvingContest(req,res) {
                 savedPythonCode:q.PythonBoilerCode
             }
             console.log(data)
-            const detail = await prisma.submission.createManyAndReturn({
-                data:[data]
+            const detail = await prisma.submission.create({
+                data:data
             })
-            await prisma.submission.updateMany({
+            await prisma.submission.update({
                 where:{
-                    id:detail[0].id
+                    id:detail.id
                 },
             data:{
-                savedJavaCode:`${q.JavaImports}\npublic class Submission_${detail[0].id} {\n${q.JavaBoilerCode}\n}`
+                savedJavaCode:`${q.JavaImports}\npublic class Submission_${detail.id} {\n${q.JavaBoilerCode}\n}`
             }
             })
 
