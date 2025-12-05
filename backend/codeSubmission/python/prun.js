@@ -1,8 +1,10 @@
 const  spawn  = require("child_process").spawn;
+const path = require("path");
 
 async function prun(fileName, testcaseInput, testCaseOutput) {
     return new Promise((resolve, reject) => {
-        const child = spawn("docker", ["exec", "-i", "python_container", `python`, `${fileName}.py`]);
+        const filePath = path.join(__dirname, `${fileName}.py`);
+        const child = spawn("python3", [filePath]);
 
         var utfEncoder = new TextEncoder("utf-8");
         var utfDecoder = new TextDecoder("utf-8");

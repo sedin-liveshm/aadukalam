@@ -39,6 +39,18 @@ async function PythonMain(allData) {
         );
         console.log("run success")
 
+        // Clean up the created file
+        const fs = require('fs');
+        const path = require('path');
+        const filePath = path.join(__dirname, `${fileName}.py`);
+        try {
+            if (fs.existsSync(filePath)) {
+                fs.unlinkSync(filePath);
+            }
+        } catch (cleanupErr) {
+            console.error("Cleanup error:", cleanupErr);
+        }
+
         return {
             status: 0,
             msg: "Completed running all test cases",
